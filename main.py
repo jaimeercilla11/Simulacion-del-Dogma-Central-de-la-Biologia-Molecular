@@ -19,6 +19,6 @@ if not adn or set(adn) - set("ACGT"):
     sys.exit("La secuencia debe contener solo A, C, G y T.")
 
 print(f"ADN de partida: {len(adn)} pb")
-lider = replicar(adn)                   # ADN -> ADN
-arnm = transcribir(comp(lider))         # ADN -> ARN
-traducir(arnm)                          # ARN -> proteina
+lider = replicar(adn)
+arnm = transcribir(comp(lider))
+traducir(arnm)
