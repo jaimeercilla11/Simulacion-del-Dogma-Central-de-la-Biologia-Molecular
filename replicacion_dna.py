@@ -1,30 +1,25 @@
-from utilidades import complemento_dna
-
-CEBADOR_ARN = "UUU"  # Representación simbólica del cebador de ARN
+from utilidades import comp, arn, ver
 
 
-def replicar_dna(cadena_lider_53: str, tamano_fragmento: int = 30):
-    print("\n--- 1. REPLICACIÓN DEL ADN ---")
+def replicar(A):
+    print("\n--- 1. REPLICACION ---")
+    print("[Topoisomerasa] alivia la tension; [Helicasa] abre la doble helice; [SSB] estabilizan las hebras.")
+    B = comp(A)
+    ver("Hebra A (5'->3')", A)
+    ver("Hebra B (3'->5')", B)
 
-    print("[Helicasa]: Desenrollando y separando la doble hélice de ADN...")
-    hebra_a = cadena_lider_53               # hebra parental A (la secuencia de entrada)
-    hebra_b = complemento_dna(hebra_a)      # hebra parental B (complementaria)
-    print(f"  - Hebra parental A: {hebra_a[:50]}...")
-    print(f"  - Hebra parental B: {hebra_b[:50]}...")
+    print("[Primasa] cebador + [ADN pol III] sintesis CONTINUA sobre B -> cadena LIDER")
+    lider = comp(B)
+    ver("Cebador ARN", arn(lider[:5]))
+    ver("Cadena lider (5'->3')", lider)
 
-    cadena_lider = complemento_dna(hebra_b)
-    print(f"  - Cadena Líder (copia continua de B): {cadena_lider[:50]}...")
+    print("[Primasa] cebador por fragmento + [ADN pol III] sintesis DISCONTINUA sobre A -> REZAGADA")
+    frag = [comp(A[i:i + 30])[::-1] for i in range(0, len(A), 30)]
+    print(f"  {len(frag)} fragmentos de Okazaki. Fragmento 1: {arn(frag[0][:5])}[ARN]+{frag[0][5:]}[ADN]")
+    print("[ADN pol I] elimina cebadores y rellena; [ADN ligasa] une los fragmentos")
+    rezagada = "".join(reversed(frag))
+    ver("Cadena rezagada (5'->3')", rezagada)
 
-    print("\n[Primasa & ADN Polimerasa]: Sintetizando cadena rezagada por fragmentos...")
-    fragmentos_okazaki = []
-    for i in range(0, len(hebra_a), tamano_fragmento):
-        sub_molde = hebra_a[i:i + tamano_fragmento]
-        fragmentos_okazaki.append(CEBADOR_ARN + complemento_dna(sub_molde))
-
-    print(f"  - Se generaron {len(fragmentos_okazaki)} fragmentos de Okazaki.")
-    print(f"  - Muestra del 1er fragmento (cebador RNA + ADN): {fragmentos_okazaki[0]}")
-
-    print("[ADN Ligasa]: Eliminando cebadores y sellando los fragmentos de Okazaki...")
-    cadena_rezagada = "".join(f[len(CEBADOR_ARN):] for f in fragmentos_okazaki)
-
-    return cadena_lider, cadena_rezagada
+    ok = lider == A and rezagada == comp(A)[::-1]
+    print("Hija 1 = A + rezagada | Hija 2 = B + lider -> identicas al original:", "OK" if ok else "ERROR")
+    return lider

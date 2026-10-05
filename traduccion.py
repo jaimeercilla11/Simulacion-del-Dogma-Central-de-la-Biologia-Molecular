@@ -1,35 +1,22 @@
-from utilidades import TABLA_ARN
+from utilidades import CODONES
 
 
-def traduccion(arnm: str) -> str:
-
-    print("\n--- 3. TRADUCCIÓN ---")
-    print("[Ribosoma]: Buscando codón de inicio (AUG)...")
-
-    posicion_inicio = arnm.find('AUG')
-    if posicion_inicio == -1:
-        print("ADVERTENCIA: No se encontró codón de inicio (AUG).")
-        return ""
-
-    print(f"  - Codón AUG detectado en el nucleótido {posicion_inicio}.")
-
-    proteina = []
-    parada_encontrada = False
-
-    for i in range(posicion_inicio, len(arnm) - 2, 3):
-        codon = arnm[i:i + 3]
-        aminoacido = TABLA_ARN.get(codon, '?')
-
-        if aminoacido == 'STOP':
-            print(f"[Ribosoma]: Codón de parada ({codon}) alcanzado. Finalizando traducción.")
-            parada_encontrada = True
+def traducir(arnm):
+    print("\n--- 3. TRADUCCION ---")
+    i = arnm.find("AUG")
+    if i < 0:
+        return print("No hay codon de inicio AUG.")
+    print(f"[Ribosoma] empieza en el AUG (posicion {i}); [ARNt] aporta cada aminoacido")
+    prot = ""
+    for j in range(i, len(arnm) - 2, 3):
+        codon = arnm[j:j + 3]
+        aa = CODONES[codon.replace("U", "T")]
+        if len(prot) < 6 or aa == "*":
+            anticodon = codon.translate(str.maketrans("ACGU", "UGCA"))
+            print(f"  {codon}  anticodon {anticodon}  ->  {'STOP' if aa == '*' else aa}")
+        if aa == "*":
             break
-
-        proteina.append(aminoacido)
-
-    if not parada_encontrada:
-        print("ADVERTENCIA: la secuencia terminó sin codón de parada (proteína incompleta).")
-
-    secuencia_proteina = "".join(proteina)
-    print(f"  - Cadena peptídica/Proteína final ({len(secuencia_proteina)} aminoácidos): {secuencia_proteina[:40]}...")
-    return secuencia_proteina
+        prot += aa
+    print(f"\nProteina ({len(prot)} aminoacidos):")
+    for k in range(0, len(prot), 60):
+        print("  " + prot[k:k + 60])

@@ -1,11 +1,10 @@
+from utilidades import comp, arn, ver
 
-def transcripcion(cadena_dna_molde: str) -> str:
 
-    print("\n--- 2. TRANSCRIPCIÓN ---")
-    print("[ARN Polimerasa]: Leyendo la hebra molde de ADN...")
-    
-    tabla_arn = str.maketrans('ATCG', 'UAGC')
-    arnm = cadena_dna_molde.translate(tabla_arn)
-    
-    print(f"  - ARNm Sintetizado (5'->3'): {arnm[:60]}...")
+def transcribir(molde):
+    print("\n--- 2. TRANSCRIPCION ---")
+    print("[ARN polimerasa] lee el molde 3'->5' y sintetiza el ARNm 5'->3' (A-U, T-A, G-C, C-G)")
+    arnm = arn(comp(molde))
+    ver("Molde ADN (3'->5')", molde)
+    ver("ARNm (5'->3')", arnm)
     return arnm
