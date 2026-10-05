@@ -6,7 +6,6 @@ from replicacion_dna import replicar
 from transcripcion import transcribir
 from traduccion import traducir
 
-# Uso: python main.py [secuencia | fichero.fasta]
 RUTA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ncbi_dataset", "data", "gene.fna")
 EJEMPLO = "ATGGCCAAATTTGGGCCCTAAGG"
 
