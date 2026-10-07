@@ -9,7 +9,7 @@ Este simulador en Python modela el flujo integrado de la información genética 
 
 1. **Replicación del ADN:** Apertura de la doble hélice (topoisomerasa, helicasa y proteínas SSB), formación de la cadena líder continua y de la cadena rezagada discontinua mediante fragmentos de Okazaki con cebadores de ARN (primasa y ADN polimerasa III). Después, la ADN polimerasa I elimina los cebadores y la ADN ligasa une los fragmentos. Al final se comprueba que las dos moléculas hijas (hebra parental + hebra nueva) son idénticas al ADN original.
 2. **Transcripción:** La ARN polimerasa lee la hebra molde (3'→5') y sintetiza el ARNm (5'→3') con las reglas de complementariedad A-U, T-A, G-C y C-G.
-3. **Traducción:** El ribosoma lee el ARNm en codones a partir del codón de inicio (AUG) hasta el codón de parada, usando el código genético con codones de ARN. Se muestran los primeros codones con su aminoácido y la proteína completa.
+3. **Traducción:** El ribosoma lee el ARNm en codones a partir del codón de inicio (AUG) hasta el codón de parada, usando el código genético con codones de ARN. Se muestran los primeros codones con su aminoácido, la proteína completa, y se valida el resultado comparándolo con `Bio.Seq.Seq.translate()` de Biopython.
 
 ## Estructura del proyecto
 
@@ -27,6 +27,12 @@ Este simulador en Python modela el flujo integrado de la información genética 
 Se ha utilizado la secuencia del ARNm del gen de la **insulina humana** (*INS*, *Homo sapiens*), obtenida de la base de datos NCBI Gene (`ncbi_dataset/data/rna.fna`, escrita con T como en el ADN), con una longitud de 465 nucleótidos. La traducción empieza en el primer AUG, tras la región 5' no traducida, y da la preproinsulina, de 110 aminoácidos.
 
 Si el archivo contiene varias secuencias (variantes de transcrito), el programa usa solo la primera. Si no se encuentra `rna.fna`, el programa usa una secuencia de ejemplo corta (el resultado en ese caso no corresponde al gen completo).
+
+## Dependencias
+Solo se usa [Biopython](https://biopython.org/) (para leer el FASTA y como validación de la traducción):
+```bash
+pip install -r requirements.txt
+```
 
 ## Ejecución
 Desde la carpeta del proyecto:

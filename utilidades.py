@@ -1,14 +1,18 @@
+from Bio.Seq import Seq
+
 AA = "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG"
 CODONES = {a + b + c: AA[i] for i, (a, b, c) in
            enumerate((a, b, c) for a in "TCAG" for b in "TCAG" for c in "TCAG")}
 
 
 def comp(s):
-    return s.translate(str.maketrans("ACGT", "TGCA"))
+    """Complementaria de ADN, sin invertir (misma orientacion, para alinear hebras)."""
+    return str(Seq(s).complement())
 
 
 def arn(s):
-    return s.replace("T", "U")
+    """ADN -> ARN (T -> U)."""
+    return str(Seq(s).transcribe())
 
 
 def ver(titulo, s):
