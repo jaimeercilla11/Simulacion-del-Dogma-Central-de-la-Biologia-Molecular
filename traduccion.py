@@ -9,7 +9,6 @@ def traducir(arnm):
         return print("  No hay codon de inicio AUG.")
     print(f"  Ribosoma inicia en el AUG (posicion {i}); los ARNt aportan los aminoacidos")
 
-    # Simulacion codon a codon (asi se ve el ribosoma avanzando y el codon de parada)
     codones, prot, parada = [], "", None
     for j in range(i, len(arnm) - 2, 3):
         c = arnm[j:j + 3]
@@ -26,8 +25,6 @@ def traducir(arnm):
     for k in range(0, len(prot), 60):
         print("  " + prot[k:k + 60])
 
-    # Validacion con Biopython: el metodo estandar de Bio.Seq debe dar la misma proteina
-    # (se recorta al ultimo codon completo, Seq.translate lo exige)
     tramo = arnm[i:]
     tramo = tramo[:len(tramo) - len(tramo) % 3]
     referencia = str(Seq(tramo).translate(to_stop=True))

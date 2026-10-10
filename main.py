@@ -13,7 +13,6 @@ EJEMPLO = "ATGGCCAAATTTGGGCCCTAAGG"
 
 
 def cargar_secuencia(arg):
-    """Lee un FASTA con Bio.SeqIO (solo el primer registro) o una secuencia directa."""
     try:
         registro = next(SeqIO.parse(arg, "fasta"))
         return str(registro.seq).upper()
@@ -27,6 +26,6 @@ if not adn or set(adn) - set("ACGT"):
     sys.exit("La secuencia debe contener solo A, C, G y T.")
 
 print(f"ADN de partida: {len(adn)} pb")
-lider = replicar(adn)                   # ADN -> ADN
-arnm = transcribir(comp(lider))         # ADN -> ARN
-traducir(arnm)                          # ARN -> proteina
+lider = replicar(adn)
+arnm = transcribir(comp(lider))
+traducir(arnm)

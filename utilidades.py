@@ -6,7 +6,6 @@ CODONES = {a + b + c: AA[i] for i, (a, b, c) in
 
 
 def comp(s):
-    """Complementaria de ADN, sin invertir (misma orientacion, para alinear hebras)."""
     return str(Seq(s).complement())
 
 
